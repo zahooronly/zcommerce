@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 export const formSchema = z.object({
   name: z.string().min(3).max(255),
@@ -30,6 +31,8 @@ export const StoreModel = () => {
       name: "",
     },
   });
+
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
@@ -54,17 +57,27 @@ export const StoreModel = () => {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="E-Commerce" {...field} />
+                      <Input
+                        disabled={loading}
+                        placeholder="E-Commerce"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-                <Button variant="outline" onClick={storeModel.onClose}>
+                <Button
+                  disabled={loading}
+                  variant="outline"
+                  onClick={storeModel.onClose}
+                >
                   Cancel
                 </Button>
-                <Button type="submit">Continue</Button>
+                <Button disabled={loading} variant="default" type="submit">
+                  Continue
+                </Button>
               </div>
             </form>
           </Form>
