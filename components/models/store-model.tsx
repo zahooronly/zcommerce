@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import axios from "axios";
 
 export const formSchema = z.object({
   name: z.string().min(3).max(255),
@@ -37,6 +38,15 @@ export const StoreModel = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
     // Create Form
+    try {
+      setLoading(true);
+      const response = await axios.post("/api/stores", values);
+      console.log("API Data: ", response.data);
+    } catch (error) {
+      console.log("ERROR: ", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
